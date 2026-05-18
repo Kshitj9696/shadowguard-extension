@@ -99,16 +99,34 @@ function detectInput() {
 
   if (!editor) {
 
+    removeBanner();
+
     return;
   }
 
   const text = editor.innerText.trim();
 
-  if (
-    text &&
-    text !== lastValue &&
-    text.length > 5
-  ) {
+  // REMOVE ALERT IF TEXTBOX EMPTY
+  if (!text || text.length < 5) {
+
+    removeBanner();
+
+    lastValue = "";
+
+    return;
+  }
+
+  // REMOVE ALERT AFTER MESSAGE SENT
+  const sendButton =
+    document.querySelector('button[data-testid="send-button"]');
+
+  if (sendButton && sendButton.disabled) {
+
+    removeBanner();
+
+  }
+
+  if (text !== lastValue) {
 
     lastValue = text;
 
