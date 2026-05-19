@@ -1,7 +1,5 @@
 console.log("SHADOWGUARD STARTED");
 
-const BACKEND_URL = "http://localhost:8080/api/scan";
-
 let lastValue = "";
 let timeout = null;
 
@@ -37,58 +35,72 @@ function removeBanner() {
   }
 }
 
-async function scanText(text) {
+// FAKE BACKEND SCANNER
+function fakeScan(text) {
 
   console.log("Scanning:", text);
 
-  try {
+  const lowerText = text.toLowerCase();
 
-    const response = await fetch(BACKEND_URL, {
+  // BLOCKED
+  if (
+    lowerText.includes("aadhaar") ||
+    lowerText.includes("bank") ||
+    lowerText.includes("ifsc") ||
+    lowerText.includes("password")
+  ) {
 
-      method: "POST",
+    return {
+      verdict: "BLOCKED",
+      topReasons: [
+        "Sensitive financial/personal data detected"
+      ]
+    };
+  }
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+  // WARNING
+  if (
+    lowerText.includes("email") ||
+    lowerText.includes("phone")
+  ) {
 
-      body: JSON.stringify({
-        text: text
-      })
+    return {
+      verdict: "WARNING",
+      topReasons: [
+        "Possible personal information detected"
+      ]
+    };
+  }
 
-    });
+  // SAFE
+  return {
+    verdict: "SAFE",
+    topReasons: []
+  };
+}
 
-    const result = await response.json();
+function handleResult(result) {
 
-    console.log("Backend result:", result);
+  console.log("Result:", result);
 
-    if (result.verdict === "BLOCKED") {
-
-      createBanner(
-        result.topReasons.join(", "),
-        "blocked"
-      );
-
-    } else if (result.verdict === "WARNING") {
-
-      createBanner(
-        result.topReasons.join(", "),
-        "warning"
-      );
-
-    } else {
-
-      removeBanner();
-
-    }
-
-  } catch (error) {
-
-    console.log("Backend not reachable");
+  if (result.verdict === "BLOCKED") {
 
     createBanner(
-      "Backend server not running",
+      result.topReasons.join(", "),
+      "blocked"
+    );
+
+  } else if (result.verdict === "WARNING") {
+
+    createBanner(
+      result.topReasons.join(", "),
       "warning"
     );
+
+  } else {
+
+    removeBanner();
+
   }
 }
 
@@ -106,7 +118,6 @@ function detectInput() {
 
   const text = editor.innerText.trim();
 
-  // REMOVE ALERT IF TEXTBOX EMPTY
   if (!text || text.length < 5) {
 
     removeBanner();
@@ -114,16 +125,6 @@ function detectInput() {
     lastValue = "";
 
     return;
-  }
-
-  // REMOVE ALERT AFTER MESSAGE SENT
-  const sendButton =
-    document.querySelector('button[data-testid="send-button"]');
-
-  if (sendButton && sendButton.disabled) {
-
-    removeBanner();
-
   }
 
   if (text !== lastValue) {
@@ -134,7 +135,9 @@ function detectInput() {
 
     timeout = setTimeout(() => {
 
-      scanText(text);
+      const result = fakeScan(text);
+
+      handleResult(result);
 
     }, 1000);
   }
