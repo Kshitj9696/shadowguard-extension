@@ -101,32 +101,29 @@ shadowguard-extension/
 
 ---
 
-# 🚨 Detection Examples
+# 🧪 Testing Scenarios
 
-## BLOCKED Example
+| Input Type | Expected Result |
+|---|---|
+| Aadhaar Number | 🚫 Block Alert |
+| Bank Details | 🚫 Block Alert |
+| Email Address | ⚠️ Warning Alert |
+| Phone Number | ⚠️ Warning Alert |
+| Normal Prompt | ✅ No Alert |
+
+---
+
+## Example Prompt
 
 ```text
 My Aadhaar number is 1234 5678 9012
 ```
 
-### Output
+### ShadowGuard Response
+
 ```text
 🚫 ShadowGuard Alert
 Sensitive personal or financial data detected
-```
-
----
-
-## WARNING Example
-
-```text
-My email is test@gmail.com
-```
-
-### Output
-```text
-⚠️ ShadowGuard Alert
-Possible personal information detected
 ```
 
 ---
@@ -170,14 +167,6 @@ shadowguard-extension
 
 ---
 
-# 📸 Screenshots
-
-## Extension Monitoring Prompts
-
-<img width="100%" src="https://dummyimage.com/1200x500/111827/f97316&text=ShadowGuard+Extension+Preview" />
-
----
-
 # 🎯 Current Project Status
 
 <div align="center">
@@ -215,6 +204,12 @@ shadowguard-extension
 | Project Type | NTCC In-House Project |
 | Domain | Cybersecurity + AI |
 | Role | Frontend Extension Development |
+
+---
+
+# 📖 About
+
+AI Prompt Security Middleware with real-time leak detection, sanitization, browser extension monitoring, and admin dashboard analytics.
 
 ---
 
