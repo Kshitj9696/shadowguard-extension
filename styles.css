@@ -8,23 +8,27 @@
 
   width: 320px;
 
-  padding: 14px;
+  padding: 16px;
 
   background: #fff7ed;
 
   border: 1px solid #f97316;
 
-  border-radius: 10px;
+  border-left: 6px solid #f97316;
+
+  border-radius: 12px;
 
   color: #9a3412;
 
   font-size: 14px;
 
+  line-height: 1.5;
+
   font-family: Arial, sans-serif;
 
   z-index: 999999;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 
   animation: shadowguardSlide 0.3s ease;
 }
@@ -35,7 +39,7 @@
 
     opacity: 0;
 
-    transform: translateY(10px);
+    transform: translateY(20px);
 
   }
 

@@ -1,6 +1,7 @@
-console.log("SHADOWGUARD STARTED");
+const BACKEND_URL = "http://localhost:8080/api/scan";
 
 let lastValue = "";
+
 let timeout = null;
 
 function createBanner(message, type = "warning") {
@@ -35,14 +36,10 @@ function removeBanner() {
   }
 }
 
-// FAKE BACKEND SCANNER
 function fakeScan(text) {
-
-  console.log("Scanning:", text);
 
   const lowerText = text.toLowerCase();
 
-  // BLOCKED
   if (
     lowerText.includes("aadhaar") ||
     lowerText.includes("bank") ||
@@ -51,37 +48,39 @@ function fakeScan(text) {
   ) {
 
     return {
+
       verdict: "BLOCKED",
+
       topReasons: [
-        "Sensitive financial/personal data detected"
+        "Sensitive personal or financial data detected"
       ]
     };
   }
 
-  // WARNING
   if (
     lowerText.includes("email") ||
     lowerText.includes("phone")
   ) {
 
     return {
+
       verdict: "WARNING",
+
       topReasons: [
         "Possible personal information detected"
       ]
     };
   }
 
-  // SAFE
   return {
+
     verdict: "SAFE",
+
     topReasons: []
   };
 }
 
 function handleResult(result) {
-
-  console.log("Result:", result);
 
   if (result.verdict === "BLOCKED") {
 

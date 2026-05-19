@@ -1,1 +1,1 @@
-console.log("Popup loaded");
+console.log("ShadowGuard popup active");
